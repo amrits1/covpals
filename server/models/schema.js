@@ -40,7 +40,6 @@ const users = new mongoose.Schema({
   },
   zoom: {
     type: String,
-    required: true,
     default: ""
   },
   partner: {
