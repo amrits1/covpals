@@ -26,10 +26,10 @@ function sendFirstEmail(user) {
 
 function sendEmails() {
     const currDate = new Date();
-    console.log(currDate.getDay(),currDate.getHours());
-    Users.find({'matched': true, 'partner.time': {'day': currDate.getDay(), 'hour': currDate.getHours()+1}}, (err, users) => {
+    console.log(currDate.getUTCDay(),currDate.getUTCHours());
+    Users.find({'matched': true, 'partner.time': {'day': currDate.getUTCDay(), 'hour': currDate.getUTCHours()+1}}, (err, users) => {
         users.forEach(user => {
-            var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
             console.log(user);
             const data = {
                 from: "VidPals <postmaster@sandbox83ebde3040d74961b33666e3369f3852.mailgun.org>",
@@ -52,13 +52,13 @@ function callHourly() {
 }
 
 var nextDate = new Date();
-if (nextDate.getMinutes() === 9) {
+if (nextDate.getUTCMinutes() === 9) {
     console.log("Current time works");
     callHourly(); // call sendEmails() once every hour beginning at XX:45
 } else {
-    nextDate.setHours(nextDate.getHours() + 1);
-    nextDate.setMinutes(0);
-    nextDate.setSeconds(0);
+    nextDate.setUTCHours(nextDate.getUTCHours() + 1);
+    nextDate.setUTCMinutes(0);
+    nextDate.setUTCSeconds(0);
 
     var difference = nextDate - new Date();
     setTimeout(callHourly, difference); // set a delay to call hourly beginning at the next time it's 45 after by waiting the time between now and the next time it'll be XX:45
@@ -122,6 +122,7 @@ router.post('/create', async (req, res) => {
                         user.partner = {name: result.name, email: result.email, time: {day: dayInt, hour: common[0]}};
                         user.zoom = link; 
                         user.matched = true;
+                        sendFirstEmail(user);
                         await Users.create(user);
     
     
@@ -129,6 +130,7 @@ router.post('/create', async (req, res) => {
                         result.partner = {name: user.name, email: user.name, time: {day: dayInt, hour: common[0]}};
                         result.zoom = link; 
                         result.matched = true;
+                        sendFirstEmail(result);
                         await Users.replaceOne( {_id: result._id}, result);
                         
                         // should also send an email to user.email and result.email right here notifying that they were matched
