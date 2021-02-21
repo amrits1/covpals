@@ -1,33 +1,19 @@
 const express = require('express');
 const router = express.Router();
 const Users = require('../../models/schema');
+const axios = require('axios');
+require('dotenv').config();
+const zoomKey = process.env.ZOOM_KEY;
 
-router.get('/test', async (req, res) => {
+// post request
+router.post('/create', async (req, res) => {
     let user = {
-        name: "george",
-        email: "testemail",
+        name: req.body.name,
+        email: req.body.email,
+        availability: req.body.availability,
         zoom: "",
         matched: false,
-        partner: {name: "a", time: {day: 0, hour: 0}, email: "d"},
-        availability: {sunday: [], monday: [], tuesday: [7], wednesday: [], thursday: [21], friday: [], saturday: []}};
-    await Users.create(user);
-}) //testing
-
-// change to post after
-router.get('/create', async (req, res) => {
-    let user = {
-        name: "harold3",
-        email: "testemail2",
-        zoom: "",
-        matched: false,
-        partner: {name: "a", time: {day: 0, hour: 0}, email: "d"},
-        availability: {sunday: [], monday: [], tuesday: [7], wednesday: [3], thursday: [23], friday: [6], saturday: [1]}
-        //name: req.body.name,
-        //email: req.body.email,
-        //availability: req.body.availability
-        //zoom: "",
-        //matched: false,
-        //partner: {name: "", time: {day: 0, hour: 0}, email: ""}
+        partner: {name: "", time: {day: 0, hour: 0}, email: ""}
     };
 
     Users.findOne({ $and: [ { $or: [
@@ -41,32 +27,47 @@ router.get('/create', async (req, res) => {
             return;
         } 
         else if (result==null) {
+            // no match
             user.partner = {name: "", email: "", time: {day: -1, hour: -1}};
             user.zoom = "";
             user.matched = false;
             await Users.create(user);
         }
         else {
-            for (day in user.availability) {
+            // already a match in the database
+            (async () => {for (day in user.availability) {
                 let common = user.availability[day].filter(x => result.availability[day].includes(x));
                 if (common.length != 0) {
                     dayInt = ["sunday","monday","tuesday","wednesday","thursday","friday","saturday"].indexOf(day);
-                    user.partner = {name: result.name, email: result.email, time: {day: dayInt, hour: common[0]}};
-                    user.zoom = ""; // placeholder for creating the link
-                    user.matched = true;
-                    await Users.create(user);
-                    
-                    // need to also updating existing result
-                    result.partner = {name: user.name, email: user.name, time: {day: dayInt, hour: common[0]}};
-                    result.zoom = ""; // placeholder for creating the link
-                    result.matched = true;
-                    await Users.replaceOne( {_id: result._id}, result);
-                    
+                    let params = {topic:"Meeting someone new!", recurrence:{type: 2, repeat_interval: 1, weekly_days: (dayInt + 1) }, settings: {jbh_time: 10, registration_type: 1, join_before_host: true}}
+
+                    let myPromise = new Promise((resolve, reject) => {
+                        axios.post('https://api.zoom.us/v2/users/a38sehga@uwaterloo.ca/meetings', params, {headers:{"content-type": "application/json", authorization: `Bearer ${zoomKey}`}}).then(response => {resolve(response.data)}).catch(response => console.log(response))
+                    })
+                    myPromise.then(async (x) => {
+                        let link = x.join_url;
+                        console.log(link);
+                        user.partner = {name: result.name, email: result.email, time: {day: dayInt, hour: common[0]}};
+                        user.zoom = link; 
+                        user.matched = true;
+                        await Users.create(user);
+    
+    
+                        // need to also updating existing result
+                        result.partner = {name: user.name, email: user.name, time: {day: dayInt, hour: common[0]}};
+                        result.zoom = link; 
+                        result.matched = true;
+                        await Users.replaceOne( {_id: result._id}, result);
+                        
+                        // should also send an email to user.email and result.email right here notifying that they were matched
+    
+                    })
                     break;
                 }
-            }
+            }})()
         }
     })
+    res.send("Finished.");
 });
 
 module.exports = router;
