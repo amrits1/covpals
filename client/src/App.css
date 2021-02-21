@@ -1,9 +1,9 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@500&display=swap');
 
 .mainn{
     position: absolute;
+    /* display: flex; */
     align-items: center;
     justify-content: center;
     margin-left: 35%;
@@ -13,6 +13,8 @@
 h1 {
     text-align: center;
     color: white;
+    font-family: 'Josefin Sans';
+    margin-bottom: -1%;
 }
 label {
     align-items: center;
@@ -21,13 +23,17 @@ label {
     justify-content: center;
 }
 
+/* .backgroundc {
+    background-image: linear-gradient(to bottom left, #09203f 0%, #537895 100%);
+  }  */
+
 #input{
     font-size: 1;
     -moz-box-sizing: content-box;
     -webkit-box-sizing: content-box;
     box-sizing: content-box;
     /* border-radius: 15px 15px 15px 15px; */
-    width: 16.5vw;
+    width: 15.5vw;
     /* height: 5px; */
     font-family: inherit;
     border-width:0px;
@@ -63,7 +69,9 @@ label {
     margin-top: 5%;
   
     }
-
+    #button:hover{
+        background-color:#537895;
+      }
 #timezone {
     /* margin-left: 15%; */
     font-size: 10px;
@@ -71,7 +79,7 @@ label {
     -webkit-box-sizing: content-box;
     box-sizing: content-box;
     /* border-radius: 15px 15px 15px 15px; */
-    width: 35.5vw;
+    width: 33.5vw;
     height: 15px;
     font-family: inherit;
     border-width:0px;
@@ -81,34 +89,43 @@ label {
     padding-bottom: 0.8vw;
 }    
 #tablee {
-  font-family: Arial, Helvetica, sans-serif;
-  border-collapse: collapse;
-  font-size: 15px;
-  margin-bottom: 3%;
-}
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    font-size: 15px;
+    /* margin-bottom: 5%; */
+  }
   
-#tablee td, #tablee th {
-  border: 1px solid #ddd;
-  padding: 5px;
-}
+  #tablee td, #tablee th {
+    border: 1px solid #ddd;
+    padding: 5px;
+  }
+  
+  #tablee tr:nth-child(even){background-color: #f2f2f2;}
+  #tablee tr:nth-child(odd){background-color: #e0dada98;}
+  #tablee tr:hover {background-color: #ddd;}
+  
+  #tablee th {
+    text-align: 'center';
+    color: black;
 
-#tablee tr:nth-child(even){background-color: #f2f2f2;}
-#tablee tr:nth-child(odd){background-color: #e0dada98;}
-#tablee tr:hover {background-color: #ddd;}
+  }
 
-#tablee th {
-  text-align: 'center';
-  color: black;
-}
+  TableRow {
+    height: 30;
+  }
 
-#particles-js {
-  background-image: linear-gradient(to bottom left, #09203f 0%, #537895 100%);
-  height: 115vh;
-}
+  TableCell {
+    padding: "0px 16px"
+  }
 
-#container {
-  position: absolute;
-  width: 100vw;
-  height: 100vh;
-}
-
+  #particles-js {
+    background-image: linear-gradient(to bottom left, #09203f 0%, #537895 100%);
+    height: 150vh;
+  }
+  
+  #container {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+  }
+  

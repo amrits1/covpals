@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Particles from 'react-particles-js';
 import { TextField } from '@material-ui/core'
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 
 export function App(props) {
@@ -25,7 +26,22 @@ export function App(props) {
   const handleSubmit = (evt) => {
       evt.preventDefault();
       updateBox();
-      axios.post('/api/endpoints/create', {name: name, email: email, availability: avail});
+      axios.post('/api/endpoints/create', {name: name, email: email, availability: avail})
+        .then((res) => {
+          if(res.data.matched){
+            Swal.fire(
+              "Congrats!",
+              'We found you a match! Check your email for further details.',
+              'success'
+            )
+          }
+          else{
+            Swal.fire(
+              "Sorry we couldn't find you a match at the moment, but keep an eye out for an email regarding a match!"
+            ) 
+          }
+        });
+
       setAvail({
         sunday:[],
         monday:[],
@@ -146,7 +162,10 @@ export function App(props) {
     <div>
       <div id = 'container'>
         <form onSubmit={handleSubmit} class = "mainn">
-          <h1> VidPals </h1>
+          <h1 style={{fontSize: '80px'}}> CovPals </h1>
+          <p style={{color: 'white'}}> &nbsp;&nbsp;Don't let Covid-19 deprive you of social interaction! Make new friends with CovPals! </p>
+          <p style={{color: 'white', textAlign: "center"}}> Input your name, email address and select your timezone below: </p>
+          <br></br>
           <label>
             &nbsp;
             <TextField InputLabelProps={{ style: { color: '#fff' }, }} label="Name" type="search" variant="outlined"
@@ -243,7 +262,8 @@ export function App(props) {
             </select>											
             <br></br>
             <br></br>
-
+            <p style={{color: 'white', textAlign: "center"}}> Select one or more checkboxes to indicate your availability </p>
+          <br></br>
             <div>
               <table id="tablee">
                 <tr>
@@ -261,7 +281,7 @@ export function App(props) {
               </table>
             </div>
 
-            <input id = "button" type="submit" value="Submit" />  
+            <input id = "button" type="submit" value="Submit"/>  
           </div>
         </form>
       </div>
