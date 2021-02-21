@@ -1,4 +1,5 @@
 import './App.css';
+
 import React, { useState } from "react";
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -10,6 +11,7 @@ import Paper from '@material-ui/core/Paper';
 import Checkbox from '@material-ui/core/Checkbox';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
+import Particles from 'react-particles-js';
 import axios from 'axios';
 
 const useStyles = makeStyles({
@@ -125,7 +127,13 @@ export function App(props) {
   }
 
 
+
+
+
   return (
+    <div>
+      <div id = 'container'>
+
     <form onSubmit={handleSubmit} class = "mainn">
       <h1> Yaathavi's Amazing </h1>
       <label>
@@ -247,13 +255,51 @@ export function App(props) {
 
       </Table>
     </TableContainer>
-    </div>
-      </div>
+
       <input id = "button" type="submit" value="Submit" />  
       </form>
+      </div>
+      <ParticleBackground/>
+    </div>
   );
 }
 
+
+const ParticleBackground = () =>  {
+  return (
+    <Particles
+      id='particles-js'
+      params={{
+        "particles": {
+            "number": {
+                "value": 90,
+                "density": {
+                    "enable": true,
+                    "value_area": 1500
+                }
+            },
+            "line_linked": {
+                "enable": false,
+                "opacity": 0.02
+            },
+            "move": {
+                "direction": "down",
+                "speed": 3
+            },
+            "size": {
+                "value": 1.75
+            },
+            "opacity": {
+                "anim": {
+                    "enable": true,
+                    "speed": 1,
+                    "opacity_min": 0.05
+                }
+            }
+        },
+        "retina_detect": true
+    }} />
+  );
+};
+
 export default App;
-
-
