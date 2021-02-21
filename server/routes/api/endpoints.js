@@ -8,6 +8,19 @@ const MG_API_KEY = process.env.MG_API_KEY
 const DOMAIN = "sandbox83ebde3040d74961b33666e3369f3852.mailgun.org";
 const mg = mailgun({apiKey: MG_API_KEY, domain: DOMAIN});
 
+function sendFirstEmail(user) {
+    var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const data = {
+        from: "VidPals with Friends <postmaster@sandbox83ebde3040d74961b33666e3369f3852.mailgun.org>",
+        to: user.email,
+        subject: "You've been matched!",
+        text: `Hello ${user.name},\n\nWe've found you a VidPal! You've been matched with ${user.partner.name} (${user.partner.email})! Your first VidPals meeting will be on ${days[user.partner.time.day]} at ${user.partner.time.hour%12} ${user.partner.time.hour-12>=0 ? "PM" : "AM"}.\n\nThe zoom link for your meeting is ${user.zoom}.`
+    };
+    mg.messages().send(data, function (error, body) {
+        console.log(body);
+    });
+}
+
 function sendEmails() {
     const currDate = new Date();
     console.log(currDate.getDay(),currDate.getHours());
@@ -16,14 +29,15 @@ function sendEmails() {
             var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
             console.log(user);
             const data = {
-                from: "Cooking with Friends <postmaster@sandbox83ebde3040d74961b33666e3369f3852.mailgun.org>",
+                from: "VidPals <postmaster@sandbox83ebde3040d74961b33666e3369f3852.mailgun.org>",
                 to: user.email,
-                subject: "Cooking in 15 Minutes!",
-                text: `Hello ${user.name},\n\nThis is a reminder about your cooking meeting with ${user.partner.name} (${user.partner.email})! You have been scheduled to call them on ${days[user.partner.time.day]} at ${user.partner.time.hour%12} ${user.partner.time.hour-12>=0 ? "PM" : "AM"}\n\nThe zoom link for your meeting is ${user.zoom}.`
+                subject: "Meeting in 15 Minutes!",
+                text: `Hello ${user.name},\n\nThis is a reminder about your VidPals meeting with ${user.partner.name} (${user.partner.email})! You have been scheduled to call them on ${days[user.partner.time.day]} at ${user.partner.time.hour%12} ${user.partner.time.hour-12>=0 ? "PM" : "AM"}.\n\nThe zoom link for your meeting is ${user.zoom}.`
             };
             mg.messages().send(data, function (error, body) {
                 console.log(body);
             });
+            sendFirstEmail(user);
         });
     });
 }
@@ -35,7 +49,7 @@ function callHourly() {
 }
 
 var nextDate = new Date();
-if (nextDate.getMinutes() === 45) {
+if (nextDate.getMinutes() === 9) {
     console.log("Current time works");
     callHourly(); // call sendEmails() once every hour beginning at XX:45
 } else {
