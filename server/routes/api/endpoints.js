@@ -91,6 +91,7 @@ router.post('/create', async (req, res) => {
             user.zoom = "";
             user.matched = false;
             await Users.create(user);
+            res.send({matched: false});
         }
         else {
             // already a match in the database
@@ -136,12 +137,12 @@ router.post('/create', async (req, res) => {
                         // should also send an email to user.email and result.email right here notifying that they were matched
 
                     })
+                    res.send({matched: true});
                     break;
                 }
             }})()
         }
     })
-    res.send("Finished.");
 });
 
 module.exports = router;
