@@ -14,11 +14,5 @@ To connect people through the internet and help fight the negative effects of so
 ## How we built it
 For the front end, we used React to create our views and forms. For the back end, we used Express, Nodejs, and MongoDB to store and access our database of users.
 
-## Challenges we ran into
-We ran into some issues while developing the backend as first, most of us had no experience with backend frameworks at all, meaning that a lot of time had to be spent learning them. Further, we also experienced some unexpected behaviour involving javascript promises and the asynchronous paradigm in javascript as a result of us needing to make API calls. This was also the first time we worked with the libraries and APIs used in this project, so getting accustomed to them in a timely manner was definitely challenging as well.
-
-## What we learned
-This was the first time most of our group members worked with Express and MongoDB as well as the APIs offered by Mailgun and Zoom. Most of us have also never worked with databases so learning how to make queries and mutating data was also a new learning experience. On the frontend, this was the first time any of us had used Material-UI.
-
 ## Tools & Libraries used
 We utilized the Mailgun API to give our server the ability to automate sending emails to participants, and to notify them of their matches. Additionally, we leveraged the Zoom API to generate weekly meeting links for each matched pair of users.
