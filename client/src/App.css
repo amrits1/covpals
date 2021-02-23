@@ -33,7 +33,7 @@ label {
     -webkit-box-sizing: content-box;
     box-sizing: content-box;
     /* border-radius: 15px 15px 15px 15px; */
-    width: 15.5vw;
+    width: 275px;
     /* height: 5px; */
     font-family: inherit;
     border-width:0px;
@@ -51,8 +51,8 @@ label {
     -moz-box-sizing: content-box;
     -webkit-box-sizing: content-box;
     box-sizing: content-box;
-    /* border-radius: 0px 15px 15px 0px; */
-    /* font-family: 'Montserrat'; */
+    /* border-radius: 0px 15px 15px 0px; /
+    / font-family: 'Montserrat'; */
     border-width:0px;
     width: 200px;
     border:none;
@@ -65,21 +65,21 @@ label {
     padding-right: 0.8vw;
     padding-top: 0.8vw;
     padding-bottom: 0.8vw;
-    margin-left: 35%; 
+    margin-left: 190px;
     margin-top: 5%;
-  
+
     }
     #button:hover{
         background-color:#537895;
       }
-#timezone {
-    /* margin-left: 15%; */
+  #timezone {
+    /* margin-left: 15%; /
     font-size: 10px;
     -moz-box-sizing: content-box;
     -webkit-box-sizing: content-box;
     box-sizing: content-box;
-    /* border-radius: 15px 15px 15px 15px; */
-    width: 33.5vw;
+    / border-radius: 15px 15px 15px 15px; */
+    width: 615px;
     height: 15px;
     font-family: inherit;
     border-width:0px;
@@ -98,10 +98,11 @@ label {
   #tablee td, #tablee th {
     border: 1px solid #ddd;
     padding: 5px;
+    
   }
   
   #tablee tr:nth-child(even){background-color: #f2f2f2;}
-  #tablee tr:nth-child(odd){background-color: #e0dada98;}
+  #tablee tr:nth-child(odd){background-color: #6b98b198;}
   #tablee tr:hover {background-color: #ddd;}
   
   #tablee th {
@@ -120,7 +121,7 @@ label {
 
   #particles-js {
     background-image: linear-gradient(to bottom left, #09203f 0%, #537895 100%);
-    height: 150vh;
+    height: 1600px;
   }
   
   #container {

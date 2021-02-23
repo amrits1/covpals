@@ -5,6 +5,7 @@ import Particles from 'react-particles-js';
 import { TextField } from '@material-ui/core'
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import videocall from './videocall.png';
 
 
 export function App(props) {
@@ -26,8 +27,11 @@ export function App(props) {
   const handleSubmit = (evt) => {
       evt.preventDefault();
       updateBox();
-      axios.post('/api/endpoints/create', {name: name, email: email, availability: avail})
+      const baseURL = process.env.REACT_APP_BASE_URL;
+      const api = axios.create({baseURL});
+      api.post('/endpoints/create', {name: name, email: email, availability: avail})
         .then((res) => {
+          console.log(res);
           if(res.data.matched){
             Swal.fire(
               "Congrats!",
@@ -163,6 +167,9 @@ export function App(props) {
       <div id = 'container'>
         <form onSubmit={handleSubmit} class = "mainn">
           <h1 style={{fontSize: '80px'}}> CovPals </h1>
+          <br></br>
+          <img src={videocall} width='300px' height='270px' style={{marginLeft:'160px'}} alt="videocall" />
+          <br></br>
           <p style={{color: 'white'}}> &nbsp;&nbsp;Don't let Covid-19 deprive you of social interaction! Make new friends with CovPals! </p>
           <p style={{color: 'white', textAlign: "center"}}> Input your name, email address and select your timezone below: </p>
           <br></br>
